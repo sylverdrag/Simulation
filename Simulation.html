@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Black stone game simulation</title>
+    <style>
+        body { 
+            background-color: #1c1c1c;
+        }
+        .main{
+            width:60vw;
+            max-width: 800px;
+            margin:2rem auto;
+            background-color: #fff;
+            padding:2rem;
+            border-radius:10px;
+        }
+        h1, h2{
+            text-align:center;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+    <h1>First or second - does it matter?</h1>
+    <p>
+      This is a programming attempt to test the answer to the following problem:
+    </p>
+    <blockquote style="font-style: italic;"><p>
+      * Playing a 2 person game where player A and B take turns drawing stones
+      out of a bag.
+    </p>
+    <p>
+      10 stones, 9 white, 1 black. You lose if you draw the black stone.
+    </p>
+    <p>
+      Assuming you alternate drawing stones, is going first an advantage,
+      disadvantage, or neutral?
+    </p>
+    </blockquote> 
+    <p>It works by simulating the game between both players as described above (using a random number generator) and logging the results: number of times each player loses.</p>
+    <p>Chose the number of games played and see how many times each player loses.</p>
+
+    <label for="numTries">Number of games played</label>
+    <input id="numTries" type="text" value="100000">
+    <button onclick="tryIt()">Try it</button>
+    <h2 id="result"></h2>
+    </div>
+    <script>      
+        // get random int between min and max
+        function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min) + min);
+        }
+        /**
+         * returns true if first player loses, false otherwise.
+         * */
+        function firstLoses() {
+          var isFirst = true;
+          var BlackStoneIndex = getRandomInt(1, 10)
+
+          for (let i = 10; i > 0; i--) {
+            let random = getRandomInt(1, i)
+            if (random == BlackStoneIndex) {
+                if (isFirst) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            isFirst = !isFirst
+          }
+        }
+        function tryIt(){
+        let numTries = document.getElementById("numTries").value
+        var firstLost = 0, secondLost = 0
+        for (let i = 0; i < numTries; i++) {
+            firstLoses()? firstLost++ : secondLost++
+        }
+        let result= `The first player lost ${firstLost.toLocaleString('en-US')} times <br>The second player lost ${secondLost.toLocaleString('en-US')} times`
+        
+        console.log(result)
+        let result_el = document.getElementById("result")
+        result_el.innerHTML = result 
+    }
+      </script>
+    </p>
+  </body>
+</html>
